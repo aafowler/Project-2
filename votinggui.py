@@ -1,15 +1,16 @@
 import tkinter as tk
 from tkinter import ttk
+from typing import Dict
 from votinglogic import VotingLogic
 
 class VotingApp:
     """
-        Set the class that holds all organizations for the gui
+    Set the class that holds all organizations for the gui
 
-        Args:
-            master: The window for the gui
+    Args:
+        master: The window for the gui
     """
-    def __init__(self, master):
+    def __init__(self, master: tk.Tk):
         self.master = master
         self.logic = VotingLogic()
 
@@ -47,9 +48,7 @@ class VotingApp:
         self.update_vote_counts()
 
     def reset_gui(self):
-        """
-        Reset all input made in the GUI.
-        """
+        """Reset all input made in the GUI."""
         self.name_entry.delete(0, tk.END)
         self.voter_id_entry.delete(0, tk.END)
         self.candidate_var.set('None')
@@ -65,21 +64,21 @@ class VotingApp:
         Handles a possible error where the file is no longer working.
         """
         try:
-            counts = self.logic.count_votes()
+            counts: Dict[str, int] = self.logic.count_votes()
             result_text = "\n".join(f"{candidate}: {count}" for candidate, count in counts.items())
             self.result_label.config(text=result_text or "No votes yet.")
         except IOError as e:
             self.result_label.config(text=f"Error: {e}")
 
     def submit_vote(self):
-        """""
+        """
         Retrieves user input, checks it, and adds it to csv with the voting logic.
 
         Updates the GUI with success or error messages and adds to the count if all is correct.
         """
-        name = self.name_entry.get()
-        voter_id = self.voter_id_entry.get()
-        candidate = self.candidate_var.get()
+        name: str = self.name_entry.get()
+        voter_id: str = self.voter_id_entry.get()
+        candidate: str = self.candidate_var.get()
 
         if not name or not voter_id or candidate == 'None':
             self.error_label.config(text="Please fill all fields.")
@@ -103,4 +102,3 @@ class VotingApp:
             self.update_vote_counts()
         except IOError as e:
             self.error_label.config(text=f"Error: {e}")
-
