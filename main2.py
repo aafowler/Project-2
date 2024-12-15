@@ -1,4 +1,4 @@
-from gui2 import *
+from votinggui import *
 
 
 
