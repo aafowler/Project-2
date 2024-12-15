@@ -1,20 +1,20 @@
 import csv
+from typing import Dict
 
 class VotingLogic:
     """
     A class to process votes in a CSV file.
-
     """
-    def __init__(self, file_name='votes.csv'):
+    def __init__(self, file_name: str = 'votes.csv'):
         """
         Sets the VotingLogic object with the specific chosen name.
 
         Args:
-            file_name (str): The name of the CSV file..
+            file_name (str): The name of the CSV file.
         """
         self.file_name = file_name
 
-    def validate_name(self, name):
+    def validate_name(self, name: str) -> bool:
         """
         Check voters name.
 
@@ -26,11 +26,19 @@ class VotingLogic:
         """
         return isinstance(name, str) and name.count(' ') == 1
 
-    def validate_voter_id(self, voter_id):
+    def validate_voter_id(self, voter_id: str) -> bool:
+        """
+        Check Voter ID
 
+        Args:
+            voter_id (str): Voter ID variable.
+
+        Returns:
+            True if voter ID is valid aka 4-digit int, otherwise returns False.
+        """
         return voter_id.isdigit() and len(voter_id) == 4
 
-    def duplicate_voter_id(self, voter_id):
+    def duplicate_voter_id(self, voter_id: str) -> bool:
         """
         Check Voter ID
 
@@ -48,7 +56,7 @@ class VotingLogic:
         except FileNotFoundError:
             return False
 
-    def record_vote(self, name, voter_id, candidate):
+    def record_vote(self, name: str, voter_id: str, candidate: str) -> None:
         """
         Adds vote to file
 
@@ -67,7 +75,7 @@ class VotingLogic:
         except Exception as e:
             raise IOError(f"Error writing to file: {e}")
 
-    def count_votes(self):
+    def count_votes(self) -> Dict[str, int]:
         """
         Tally votes per candidate
 
